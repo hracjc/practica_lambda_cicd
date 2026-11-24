@@ -1,0 +1,26 @@
+name: Hello Serverless CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: test
+        run: npm test
+
+      - name: package
+        run: |
+          mkdir -p dist
+          zip -r dist/function.zip index.js package.json
+
+      - name: deploy
+        run: |
+          echo "Desplegando dist/function.zip de hello-fn..."
